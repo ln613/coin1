@@ -25,7 +25,7 @@ class App extends Component {
                     </div>
                     <div className="results--section__inner">
                         <Today />
-                        <History />
+                        {/* <History /> */}
                     </div>
                 </section>
             </div>

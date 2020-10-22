@@ -49,8 +49,8 @@ class Today extends Component {
 		if (!navigator.onLine) {
 			return this.restoreStateFromLocalStorage();
 		}
-		this.pusher = new Pusher('APP_KEY', {
-			cluster: 'YOUR_CLUSTER',
+		this.pusher = new Pusher('7c635d9695a851d349c1', {
+			cluster: 'us3',
 			encrypted: true
 		});
 		this.prices = this.pusher.subscribe('coin-prices');
@@ -72,7 +72,12 @@ class Today extends Component {
 		this.cryptoSubscription = setInterval(() => {
 			axios.get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,LTC&tsyms=USD')
 				.then(({ data }) => { // This is a style question, I prefed doing it this way, to each its own
-					this.sendPricePusher(data)
+					this.setState({
+						btcprice: data.BTC.USD,
+						ethprice: data.ETH.USD,
+						ltcprice: data.LTC.USD
+					}, this.saveStateToLocalStorage);
+							this.sendPricePusher(data)
 				})
 				.catch(console.error)
 		}, 10000);

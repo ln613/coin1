@@ -39,12 +39,13 @@ class History extends Component {
 		const time = moment().subtract(daysCount, 'days').unix();
 		axios.all([this.getETHPrices(time), this.getBTCPrices(time), this.getLTCPrices(time)])
 			.then(axios.spread((eth, btc, ltc) => {
-			    /** Have clear names for your variables, what is f supposed to be? **/
+                /** Have clear names for your variables, what is f supposed to be? **/
+                console.log(eth)
 				let f = {
 					date: moment.unix(time).format("MMMM Do YYYY"),
-					eth: eth.data.ETH.USD,
-					btc: btc.data.BTC.USD,
-					ltc: ltc.data.LTC.USD
+					eth: eth.data == "OK" ? eth.config.data.prices.ETH.USD : eth.data.ETH.USD,
+					btc: eth.data == "OK" ? eth.config.data.prices.BTC.USD : btc.data.BTC.USD,
+					ltc: eth.data == "OK" ? eth.config.data.prices.LTC.USD : ltc.data.LTC.USD
 				};
 				this.setState({
                     [key]: f
